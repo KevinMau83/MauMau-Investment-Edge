@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#142c24">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://services.arcgis.com; form-action 'none'; object-src 'none'; base-uri 'none'">
+<title>MauMau Investment Edge</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="icon" href="icon.png">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="calculator.css">
+<script type="module" src="calculator.mjs"></script>
+<script type="module" src="discovery.mjs"></script>
+</head>
+<body>
+<main>
+<header class="hero">
+<div class="app-brand"><img src="icon.png" width="45" height="45" alt=""><span class="eyebrow">MauMau Properties</span></div>
+<h1>Investment Edge</h1>
+<p>Search a Missouri area for property leads and published rent benchmarks.</p>
+</header>
+<noscript><p>Enable JavaScript to use the calculator.</p></noscript>
+<section aria-labelledby="search-title">
+<h2 id="search-title">Search an area</h2>
+<form id="discovery" class="card fields">
+<label class="field">Missouri city, ZIP code, or Southwest Missouri
+<input name="area" placeholder="Pleasant Hope" maxlength="70" required></label>
+<div class="actions"><button class="primary" type="submit">Find properties</button></div>
+</form>
+<p id="search-status" class="entry" role="status"></p>
+<div id="search-results"></div>
+<p class="small entry">Automatic results come from HUD’s December 2025 property snapshot. HUD ZIP rents are housing-program benchmarks for an area.</p>
+<details class="edit section" id="listing-sources" open><summary>Browse current listing sources</summary>
+<p class="small">These links open each source’s own search. Their current listings do not appear in the HUD results above.</p>
+<div id="source-links" class="fields"></div>
+</details>
+</section>
+<details class="edit section" id="optional-calculator"><summary>Optional underwriting calculator</summary>
+<form id="deal" autocomplete="off" class="no-print">
+<div id="fields"></div>
+<p class="entry small">Leave a strategy's key inputs blank to skip it. Enter zero explicitly when there is no rehab. Other optional dollar amounts default to zero.</p>
+<div class="actions"><button class="primary" type="submit" disabled>Calculate</button><button type="reset">Start fresh</button></div>
+</form>
+<section id="report" hidden aria-labelledby="report-title">
+<div class="section-head section"><h2 id="report-title" tabindex="-1">Investment analysis</h2>
+<div class="actions no-print"><button class="primary" id="share">Share</button><button id="email">Email</button><button id="print">Print / Save PDF</button><button id="download">Download text</button></div></div>
+<p id="property"></p>
+<div id="results" class="grid"></div>
+<details class="edit section" open><summary>Assumptions used</summary><dl id="assumptions" class="metrics"></dl></details>
+<p class="section small">Estimates use your inputs and exclude income taxes. Verify costs, values and lending terms before relying on the results.</p>
+</section>
+<p id="status" class="entry" role="status"></p>
+</details>
+</main>
+</body>
+</html>
