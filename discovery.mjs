@@ -1,3 +1,5 @@
+import {listingSources} from "./sources.mjs";
+
 export const HUD_LAYER = "https://services.arcgis.com/VTyQ9soqVukalItT/ArcGIS/rest/services/SF_REO/FeatureServer/0";
 export const HUD_HOME = "https://www.hudhomestore.gov/";
 export const USDA = "https://properties.sc.egov.usda.gov/resales/public/searchSFH";
@@ -63,6 +65,21 @@ if (form) {
     anchor.rel = "noopener noreferrer";
     return anchor;
   }
+  function displaySources(area) {
+    const target = document.querySelector("#source-links");
+    target.replaceChildren(...listingSources(area).map(([label,links])=>{
+      const group = element("div");
+      const list = element("ul");
+      for (const [text,url] of links) {
+        const item = element("li");
+        item.append(source(text,url));
+        list.append(item);
+      }
+      group.append(element("h3",label),list);
+      return group;
+    }));
+  }
+  displaySources("");
   function benchmark(zip,data) {
     const section = element("div");
     for (const [market,rents] of data[zip] ?? []) {
@@ -115,6 +132,7 @@ if (form) {
     const controller = new AbortController();
     current = controller;
     const area = input.value.trim();
+    displaySources(area);
     results.replaceChildren();
     const button = form.querySelector("button");
     button.disabled = true;
@@ -151,6 +169,7 @@ if (form) {
     if (event.persisted) {
       current?.abort();
       form.reset();
+      displaySources("");
       results.replaceChildren();
       status.textContent = "";
     }
