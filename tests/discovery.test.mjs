@@ -24,3 +24,12 @@ test("A source outage remains distinct from a successful zero-result search",asy
   const empty=await searchArea("65613",undefined,async url=>response(String(url).endsWith(".json")?{}:{features:[]}));
   assert.deepEqual(empty.properties.value,{rows:[],more:false});
 });
+
+test("Free listing links respect ZIP and city scope with a statewide fallback",async()=>{
+  const {listingSources}=await import("../pages/sources.mjs");
+  const general=area=>listingSources(area)[0][1].map(([,url])=>url);
+  assert.equal(general("Springfield, MO")[0],"https://www.zillow.com/springfield-mo/");
+  assert.equal(general("Springfield, MO")[1],"https://www.realtor.com/realestateandhomes-search/springfield_MO");
+  assert.equal(general("65802")[2],"https://www.redfin.com/zipcode/65802");
+  assert.equal(general("Southwest Missouri")[0],"https://www.zillow.com/mo/");
+});
